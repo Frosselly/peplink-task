@@ -1,13 +1,9 @@
+import { useState } from 'react'
 import './App.css'
+import UserForm from './components/UserForm'
+import type { User } from './types'
 
-type User = {
-  name: string
-  position: string
-  gender: string
-  age: number
-}
-
-const users: User[] = [
+const usersExample: User[] = [
   {
     name: 'Jhon Joberson Peter',
     position: 'Janitor',
@@ -29,20 +25,36 @@ const users: User[] = [
 ]
 
 function App() {
+  const [showForm, setShowForm] = useState<boolean>(false)
+  const [users, setUsers] = useState<User[]>(usersExample)
+
   return (
     <>
+      {showForm && (
+        <UserForm
+          onSubmit={(formData) => {
+            console.log(formData)
+            setShowForm((prev) => !prev)
+            setUsers((prev) => [...prev, formData])
+          }}
+          onCancel={() => setShowForm((prev) => !prev)}
+        />
+      )}
       <div>
+        <h1>Users</h1>
         <table>
           <thead>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Gender</th>
-            <th>Age</th>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Gender</th>
+              <th>Age</th>
+            </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
+            {users.map((user, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>{user.name}</td>
                   <td>{user.position}</td>
                   <td>{user.gender}</td>
@@ -52,6 +64,7 @@ function App() {
             })}
           </tbody>
         </table>
+        <button onClick={() => setShowForm((prev) => !prev)}>Add User</button>
       </div>
     </>
   )

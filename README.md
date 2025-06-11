@@ -3,7 +3,7 @@
 ## Page one
 
 - [x] User list(name, position, gender, age)
-- [ ] Add user form
+- [x] Add user form
 - [ ] Delete user
 - [ ] Update user position
 - [ ] User sorting
