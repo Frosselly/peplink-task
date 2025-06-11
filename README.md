@@ -4,7 +4,7 @@
 
 - [x] User list(name, position, gender, age)
 - [x] Add user form
-- [ ] Delete user
+- [x] Delete user
 - [ ] Update user position
 - [ ] User sorting
 

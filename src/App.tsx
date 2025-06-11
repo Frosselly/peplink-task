@@ -28,6 +28,11 @@ function App() {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [users, setUsers] = useState<User[]>(usersExample)
 
+  const handleDeleteUser = (deleteIndex: number) => {
+    const newUsers = users.filter((_v, index) => index !== deleteIndex)
+    setUsers(newUsers)
+  }
+
   return (
     <>
       {showForm && (
@@ -49,19 +54,31 @@ function App() {
               <th>Position</th>
               <th>Gender</th>
               <th>Age</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => {
-              return (
-                <tr key={index}>
-                  <td>{user.name}</td>
-                  <td>{user.position}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.age}</td>
-                </tr>
-              )
-            })}
+            {!!!users.length ? (
+              <tr>
+                <td colSpan={5}>The user list is empty</td>
+              </tr>
+            ) : (
+              users.map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{user.name}</td>
+                    <td>{user.position}</td>
+                    <td>{user.gender}</td>
+                    <td>{user.age}</td>
+                    <td>
+                      <button onClick={() => handleDeleteUser(index)}>
+                        Delete User
+                      </button>
+                    </td>
+                  </tr>
+                )
+              })
+            )}
           </tbody>
         </table>
         <button onClick={() => setShowForm((prev) => !prev)}>Add User</button>
