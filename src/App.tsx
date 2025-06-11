@@ -1,33 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type User = {
+  name: string
+  position: string
+  gender: string
+  age: number
+}
 
+const users: User[] = [
+  {
+    name: 'Jhon Joberson Peter',
+    position: 'Janitor',
+    gender: 'Male',
+    age: 23
+  },
+  {
+    name: 'Lucy',
+    position: 'Director',
+    gender: 'Female',
+    age: 42
+  },
+  {
+    name: 'Sam',
+    position: 'Developer',
+    gender: 'Male',
+    age: 32
+  }
+]
+
+function App() {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <table>
+          <thead>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Gender</th>
+            <th>Age</th>
+          </thead>
+          <tbody>
+            {users.map((user) => {
+              return (
+                <tr>
+                  <td>{user.name}</td>
+                  <td>{user.position}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.age}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
