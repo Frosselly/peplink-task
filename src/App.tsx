@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import UserForm from './components/UserForm'
-import type { User } from './types'
+import type { SortDirection, User, UserSortFields, UserSorting } from './types'
 
 const usersExample: User[] = [
   {
-    name: 'Jhon Joberson Peter',
+    name: 'Ahon Joberson Peter',
     position: 'Janitor',
     gender: 'Male',
     age: 23
@@ -24,13 +24,50 @@ const usersExample: User[] = [
   }
 ]
 
+const compareString = (s1: string, s2: string) => {
+  return s1.localeCompare(s2)
+}
+
 function App() {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [users, setUsers] = useState<User[]>(usersExample)
+  const [sortValue, setSortValue] = useState<UserSorting>({
+    field: 'name',
+    direction: 'asc'
+  })
+
+  const sortedUsers = useMemo(() => {
+    const sorted = users.slice().sort((a, b) => {
+      switch (sortValue.field) {
+        case 'name':
+          return compareString(a.name, b.name)
+        case 'position':
+          return compareString(a.position, b.position)
+        case 'gender':
+          return compareString(a.gender, b.gender)
+        case 'age':
+          return a.age - b.age
+        default:
+          return 0
+      }
+    })
+    if (sortValue.direction === 'desc') return sorted.reverse()
+    return sorted
+  }, [users, sortValue])
 
   const handleDeleteUser = (deleteIndex: number) => {
     const newUsers = users.filter((_v, index) => index !== deleteIndex)
     setUsers(newUsers)
+  }
+
+  const handleChangeSort = (sortField: UserSortFields) => {
+    const sortDirection: SortDirection =
+      sortValue.field === sortField
+        ? sortValue.direction === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'asc'
+    setSortValue({ field: sortField, direction: sortDirection })
   }
 
   return (
@@ -50,11 +87,19 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Gender</th>
-              <th>Age</th>
-              <th>Actions</th>
+              <th role="button" onClick={() => handleChangeSort('name')}>
+                Name
+              </th>
+              <th role="button" onClick={() => handleChangeSort('position')}>
+                Position
+              </th>
+              <th role="button" onClick={() => handleChangeSort('gender')}>
+                Gender
+              </th>
+              <th role="button" onClick={() => handleChangeSort('age')}>
+                Age
+              </th>
+              <th role="button">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -63,7 +108,7 @@ function App() {
                 <td colSpan={5}>The user list is empty</td>
               </tr>
             ) : (
-              users.map((user, index) => {
+              sortedUsers.map((user, index) => {
                 return (
                   <tr key={index}>
                     <td>{user.name}</td>

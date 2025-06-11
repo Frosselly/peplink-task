@@ -36,19 +36,19 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit, onCancel }) => {
     <div className="formContainer">
       <h3>Add a new User</h3>
       <form action="">
-        <label htmlFor="">
+        <label>
           {'Name'}
           <input type="text" name="name" id="" onChange={handleChange} />
         </label>
-        <label htmlFor="">
+        <label>
           {'Position'}
           <input type="text" name="position" id="" onChange={handleChange} />
         </label>
-        <label htmlFor="">
+        <label>
           {'Gender'}
           <input type="text" name="gender" id="" onChange={handleChange} />
         </label>
-        <label htmlFor="">
+        <label>
           {'Age'}
           <input type="number" name="age" id="" onChange={handleChange} />
         </label>

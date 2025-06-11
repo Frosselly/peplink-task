@@ -5,8 +5,8 @@
 - [x] User list(name, position, gender, age)
 - [x] Add user form
 - [x] Delete user
-- [ ] Update user position
-- [ ] User sorting
+- [x] User sorting asc/desc
+- [ ] Update user position/role
 
 ## Page Two
 
