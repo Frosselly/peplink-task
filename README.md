@@ -1,15 +1,17 @@
 # peplink-task
 
+- [ ] Page routing
+
 ## Page one
 
 - [x] User list(name, position, gender, age)
 - [x] Add user form
 - [x] Delete user
 - [x] User sorting asc/desc
-- [ ] Update user position/role
+- [ ] Change user row position
 
 ## Page Two
 
-- [ ] Get data from API (https://api.chucknorris.io/jokes/random?category=dev)
-- [ ] Update data on load and every 15s
-- [ ] Display last updated
+- [x] Get data from API (https://api.chucknorris.io/jokes/random?category=dev)
+- [x] Update data on load and every 15s
+- [x] Display last updated
