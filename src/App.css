@@ -14,19 +14,17 @@ main {
 
 table {
   border-collapse: collapse;
-  border: 1px solid black;
   font-size: 1rem;
 }
 
 thead {
-  background-color: hsl(0, 0%, 70%);
-  color: black;
+  background-color: #878787;
+  color: white;
 }
 
 th,
 td {
-  border: 1px solid black;
-  padding: 8px 12px;
+  padding: 12px 14px;
 }
 th {
   user-select: none;
@@ -38,9 +36,10 @@ th[role='button']:hover {
 
 td {
   text-align: left;
+  border-top: 1px solid white;
 }
 
-td:last-of-type {
+td:nth-last-of-type(2) {
   text-align: right;
 }
 
@@ -50,27 +49,55 @@ td:last-of-type {
   padding: 24px;
   margin: 0 auto;
   color: black;
-  border-radius: 18px;
+  border-radius: 4px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 14px;
   width: 300px;
   justify-content: center;
   align-items: center;
 }
 
+form > div {
+  width: 100%;
+}
+
 label {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+  display: block;
+  text-align: start;
+  width: 100%;
+  font-size: 16px;
 }
 
 input {
-  font-size: 18px;
-  padding: 4px 6px;
+  padding: 6px 6px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  border: 0.4px solid rgb(38, 38, 38);
+  border-radius: 2px;
+  color: black;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid rgb(38, 38, 38);
+  border-radius: 2px;
+}
+
+.errMsg {
+  color: red;
+  font-size: 14px;
+}
+
+form .btnContainer {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
 }
 
 .infoPage {

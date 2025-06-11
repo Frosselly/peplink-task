@@ -150,7 +150,7 @@ function PageOne() {
                       <button
                         className={'redBtn'}
                         onClick={() => handleDeleteUser(index)}>
-                        Delete User
+                        Delete
                       </button>
                     </td>
                   </tr>
