@@ -1,6 +1,6 @@
 # peplink-task
 
-- [ ] Page routing
+- [x] Page routing
 
 ## Page one
 
