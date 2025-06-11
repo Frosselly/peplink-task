@@ -53,7 +53,9 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit, onCancel }) => {
           <input type="number" name="age" id="" onChange={handleChange} />
         </label>
         <button onClick={handleSubmit}>Add User</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <button className={'redBtn'} onClick={handleCancel}>
+          Cancel
+        </button>
       </form>
     </div>
   )

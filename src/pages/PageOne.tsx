@@ -31,11 +31,12 @@ function PageOne() {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [users, setUsers] = useState<User[]>(usersExample)
   const [sortValue, setSortValue] = useState<UserSorting>({
-    field: 'name',
+    field: 'unsorted',
     direction: 'asc'
   })
 
   const sortedUsers = useMemo(() => {
+    if (sortValue.field === 'unsorted') return users
     const sorted = users.slice().sort((a, b) => {
       switch (sortValue.field) {
         case 'name':
@@ -69,6 +70,32 @@ function PageOne() {
     setSortValue({ field: sortField, direction: sortDirection })
   }
 
+  const moveRow = (index: number, direction: 'up' | 'down') => {
+    if (
+      (users.length - 1 === index && direction === 'down') ||
+      (index === 0 && direction === 'up')
+    )
+      return
+
+    setSortValue({
+      field: 'unsorted',
+      direction: 'asc'
+    })
+
+    const directionAdd = direction === 'up' ? -1 : 1
+    const userCopy = users.slice()
+    const copyRow = users[index + directionAdd]
+    userCopy[index + directionAdd] = userCopy[index]
+    userCopy[index] = copyRow
+    setUsers(userCopy)
+  }
+
+  const renderSortDirection = (fieldName: UserSortFields) => {
+    if (sortValue.field === 'unsorted' || sortValue.field !== fieldName)
+      return ''
+    return sortValue.direction === 'asc' ? '↑' : '↓'
+  }
+
   return (
     <>
       {showForm && (
@@ -88,16 +115,16 @@ function PageOne() {
             <tr>
               <th></th>
               <th role="button" onClick={() => handleChangeSort('name')}>
-                Name
+                Name {renderSortDirection('name')}
               </th>
               <th role="button" onClick={() => handleChangeSort('position')}>
-                Position
+                Position {renderSortDirection('position')}
               </th>
               <th role="button" onClick={() => handleChangeSort('gender')}>
-                Gender
+                Gender {renderSortDirection('gender')}
               </th>
               <th role="button" onClick={() => handleChangeSort('age')}>
-                Age
+                Age {renderSortDirection('age')}
               </th>
               <th>Actions</th>
             </tr>
@@ -111,13 +138,18 @@ function PageOne() {
               sortedUsers.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td></td>
+                    <td>
+                      <button onClick={() => moveRow(index, 'up')}>↑</button>
+                      <button onClick={() => moveRow(index, 'down')}>↓</button>
+                    </td>
                     <td>{user.name}</td>
                     <td>{user.position}</td>
                     <td>{user.gender}</td>
                     <td>{user.age}</td>
                     <td>
-                      <button onClick={() => handleDeleteUser(index)}>
+                      <button
+                        className={'redBtn'}
+                        onClick={() => handleDeleteUser(index)}>
                         Delete User
                       </button>
                     </td>

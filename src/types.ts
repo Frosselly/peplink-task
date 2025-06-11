@@ -7,7 +7,7 @@ export type User = {
 
 export type SortDirection = 'asc' | 'desc';
 
-export type UserSortFields = 'name' | 'position' | 'gender' | 'age';
+export type UserSortFields = 'unsorted' | 'name' | 'position' | 'gender' | 'age';
 
 export type UserSorting = {
     field: UserSortFields;

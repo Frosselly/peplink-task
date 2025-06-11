@@ -135,3 +135,9 @@ nav {
   gap: 24px;
   padding: 20px;
 }
+
+.redBtn {
+  background-color: brown;
+  color: white;
+  font-weight: bold;
+}
