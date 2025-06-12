@@ -8,7 +8,7 @@
 - [x] Add user form
 - [x] Delete user
 - [x] User sorting asc/desc
-- [ ] Change user row position
+- [x] Change user row position
 
 ## Page Two
 
