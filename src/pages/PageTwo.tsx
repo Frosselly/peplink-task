@@ -55,11 +55,11 @@ function PageTwo() {
         {data && (
           <>
             <img src={data.icon_url} alt="chuck norris icon" />
-            <div className="quote">"{data.value}"</div>
+            <div className="quote">&quot;{data.value}&quot;</div>
             <div className="categoryContainer">
               <div>Categories</div>
               <div className="categories">
-                {!!data.categories.length ? (
+                {data.categories.length ? (
                   data.categories.map((val, index) => {
                     return (
                       <div key={index} className="category">

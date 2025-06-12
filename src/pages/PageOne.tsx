@@ -130,7 +130,7 @@ function PageOne() {
             </tr>
           </thead>
           <tbody>
-            {!!!users.length ? (
+            {!users.length ? (
               <tr>
                 <td colSpan={5}>The user list is empty</td>
               </tr>
@@ -153,7 +153,8 @@ function PageOne() {
                     <td>
                       <button
                         className={'redBtn'}
-                        onClick={() => handleDeleteUser(index)}>
+                        onClick={() => handleDeleteUser(index)}
+                      >
                         Delete
                       </button>
                     </td>

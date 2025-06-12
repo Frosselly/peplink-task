@@ -7,7 +7,17 @@ type UserFormProps = {
   onCancel: () => void
 }
 
-const UserForm: React.FC<UserFormProps> = ({ onSubmit, onCancel }) => {
+type missingFieldsType = {
+  name: boolean
+  position: boolean
+  gender: boolean
+  age: boolean
+}
+
+const UserForm: React.FC<UserFormProps> = ({
+  onSubmit,
+  onCancel
+}: UserFormProps) => {
   const [formData, setFormData] = useState<User>({
     name: '',
     position: '',
@@ -15,14 +25,14 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit, onCancel }) => {
     age: 0
   })
 
-  const [missingFields, setMissingFields] = useState({
+  const [missingFields, setMissingFields] = useState<missingFieldsType>({
     name: false,
     position: false,
     gender: false,
     age: false
   })
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
@@ -30,20 +40,21 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit, onCancel }) => {
     }))
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
 
-    const errFields: any = {}
+    const errFields: missingFieldsType = { ...missingFields }
     let canSubmit = true
     for (const k in formData) {
-      if (!!!formData[k as keyof User]) canSubmit = false
-      errFields[k] = !!!formData[k as keyof User]
+      const key = k as keyof User
+      if (!formData[key]) canSubmit = false
+      errFields[key] = !formData[key]
     }
     setMissingFields(errFields)
 
     if (formData && canSubmit) onSubmit(formData)
   }
-  const handleCancel = (e: any) => {
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     onCancel()
   }
