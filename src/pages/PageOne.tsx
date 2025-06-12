@@ -139,8 +139,12 @@ function PageOne() {
                 return (
                   <tr key={index}>
                     <td>
-                      <button onClick={() => moveRow(index, 'up')}>↑</button>
-                      <button onClick={() => moveRow(index, 'down')}>↓</button>
+                      <div>
+                        <button onClick={() => moveRow(index, 'up')}>↑</button>
+                        <button onClick={() => moveRow(index, 'down')}>
+                          ↓
+                        </button>
+                      </div>
                     </td>
                     <td>{user.name}</td>
                     <td>{user.position}</td>

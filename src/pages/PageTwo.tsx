@@ -92,9 +92,15 @@ function PageTwo() {
                 <a href={data.url}>{data.url}</a>
               </div>
             </div>
-            <div>
-              <div>Next page update: {time}s</div>
-              <div>Last page update: {formatDate(lastUpdate)}</div>
+            <div className="updateData">
+              <div>
+                <div>Next page update:</div>
+                <div>{time}s</div>
+              </div>
+              <div>
+                <div>Last page update:</div>
+                <div>{formatDate(lastUpdate)}</div>
+              </div>
             </div>
           </>
         )}
