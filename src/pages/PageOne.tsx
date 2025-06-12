@@ -101,7 +101,6 @@ function PageOne() {
       {showForm && (
         <UserForm
           onSubmit={(formData) => {
-            console.log(formData)
             setShowForm((prev) => !prev)
             setUsers((prev) => [...prev, formData])
           }}
@@ -153,8 +152,7 @@ function PageOne() {
                     <td>
                       <button
                         className={'redBtn'}
-                        onClick={() => handleDeleteUser(index)}
-                      >
+                        onClick={() => handleDeleteUser(index)}>
                         Delete
                       </button>
                     </td>

@@ -43,7 +43,6 @@ function PageTwo() {
     fetch('https://api.chucknorris.io/jokes/random?category=dev')
       .then((res) => res.json())
       .then((data) => {
-        console.log('fetched')
         setData(data)
       })
   }
