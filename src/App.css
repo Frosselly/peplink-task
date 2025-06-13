@@ -40,6 +40,10 @@ td {
   border-top: 1px solid white;
 }
 
+td::first-letter {
+  text-transform: capitalize;
+}
+
 td:nth-last-of-type(2) {
   text-align: right;
 }
@@ -86,6 +90,8 @@ label {
   padding-left: 0.1rem;
 }
 
+select,
+option,
 input {
   padding: 0.4rem;
   width: 100%;

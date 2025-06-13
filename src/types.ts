@@ -1,9 +1,12 @@
 export type User = {
   name: string
   position: string
-  gender: string
+  gender: GenderType
   age: number
 }
+
+type GenderType = 'male' | 'female' | 'other' | ''
+
 
 export type SortDirection = 'asc' | 'desc'
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import '../App.css'
 
 type ApiType = {
   id: number
@@ -11,9 +10,11 @@ type ApiType = {
   categories: string[]
 }
 
+const UPDATE_TIME = 5
+
 function PageTwo() {
   const [data, setData] = useState<ApiType>()
-  const [time, setTime] = useState<number>(15)
+  const [time, setTime] = useState<number>(UPDATE_TIME)
   const [lastUpdate, setLastUpdate] = useState<number>(Date.now())
 
   useEffect(() => {
@@ -27,9 +28,13 @@ function PageTwo() {
 
   useEffect(() => {
     if (time === 0) {
-      setLastUpdate(Date.now())
-      fetchData()
-      setTime(15)
+      if (navigator.onLine)
+        fetchData().then((res) => {
+          if (res) {
+            setLastUpdate(Date.now())
+          }
+        })
+      setTime(UPDATE_TIME)
     }
   }, [time])
 
@@ -39,12 +44,18 @@ function PageTwo() {
     return formattedDate
   }
 
-  const fetchData = () => {
-    fetch('https://api.chucknorris.io/jokes/random?category=dev')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data)
-      })
+  const fetchData = async () => {
+    try {
+      const res = await fetch(
+        'https://api.chucknorris.io/jokes/random?category=dev'
+      )
+      if (!res.ok) return false
+      const data = await res.json()
+      setData(data)
+      return true
+    } catch {
+      return false
+    }
   }
 
   return (

@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import '../App.css'
 import type { SortDirection, User, UserSortFields, UserSorting } from '../types'
 import UserForm from '../components/UserForm'
 
@@ -7,19 +6,19 @@ const usersExample: User[] = [
   {
     name: 'Ahon Joberson Peter',
     position: 'Janitor',
-    gender: 'Male',
+    gender: 'male',
     age: 23
   },
   {
     name: 'Lucy',
     position: 'Director',
-    gender: 'Female',
+    gender: 'female',
     age: 42
   },
   {
     name: 'Sam',
     position: 'Developer',
-    gender: 'Male',
+    gender: 'male',
     age: 32
   }
 ]
@@ -27,6 +26,7 @@ const usersExample: User[] = [
 const compareString = (s1: string, s2: string) => {
   return s1.localeCompare(s2)
 }
+
 function PageOne() {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [users, setUsers] = useState<User[]>(usersExample)
@@ -56,7 +56,7 @@ function PageOne() {
   }, [users, sortValue])
 
   const handleDeleteUser = (deleteIndex: number) => {
-    const newUsers = users.filter((_v, index) => index !== deleteIndex)
+    const newUsers = sortedUsers.filter((_v, index) => index !== deleteIndex)
     setUsers(newUsers)
   }
 
@@ -131,7 +131,7 @@ function PageOne() {
           <tbody>
             {!users.length ? (
               <tr>
-                <td colSpan={5}>The user list is empty</td>
+                <td colSpan={6}>The user list is empty</td>
               </tr>
             ) : (
               sortedUsers.map((user, index) => {

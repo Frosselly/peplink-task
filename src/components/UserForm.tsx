@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import type { User } from '../types'
-import '../App.css'
+import Input from './Input'
 
 type UserFormProps = {
   onSubmit: (formData: User) => void
   onCancel: () => void
 }
 
-type missingFieldsType = {
+type MissingFieldsType = {
   name: boolean
   position: boolean
   gender: boolean
@@ -25,14 +25,18 @@ const UserForm: React.FC<UserFormProps> = ({
     age: 0
   })
 
-  const [missingFields, setMissingFields] = useState<missingFieldsType>({
+  const [missingFields, setMissingFields] = useState<MissingFieldsType>({
     name: false,
     position: false,
     gender: false,
     age: false
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
@@ -40,15 +44,26 @@ const UserForm: React.FC<UserFormProps> = ({
     }))
   }
 
+  const checkIfValid = (fieldValue: string) => {
+    const num = Number(fieldValue)
+    if (!isNaN(num)) {
+      return num > 0
+    }
+    return fieldValue.trim().length > 0
+  }
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
 
-    const errFields: missingFieldsType = { ...missingFields }
+    const errFields: MissingFieldsType = { ...missingFields }
     let canSubmit = true
     for (const k in formData) {
       const key = k as keyof User
-      if (!formData[key]) canSubmit = false
-      errFields[key] = !formData[key]
+      const isValid =
+        typeof formData[key] === 'string' ? checkIfValid(formData[key]) : false
+
+      if (!isValid) canSubmit = false
+      errFields[key] = !isValid
     }
     setMissingFields(errFields)
 
@@ -63,49 +78,47 @@ const UserForm: React.FC<UserFormProps> = ({
     <div className="formContainer">
       <h3>Add a new User</h3>
       <form action="">
+        <Input
+          type={'text'}
+          name="name"
+          labelValue={'Name'}
+          onChange={handleChange}
+          errMsg={missingFields.name ? 'Missing name' : ''}
+        />
+        <Input
+          type={'text'}
+          name="position"
+          labelValue={'Position'}
+          onChange={handleChange}
+          errMsg={missingFields.position ? 'Missing position' : ''}
+        />
         <div>
-          <label htmlFor="name">{'Name'}</label>
-          <input type="text" name="name" id="name" onChange={handleChange} />
-          {missingFields.name && <label className="errMsg">Missing name</label>}
-        </div>
-        <div>
-          <label htmlFor="position">{'Position'}</label>
-          <input
-            type="text"
-            name="position"
-            id="position"
-            onChange={handleChange}
-          />
-          {missingFields.position && (
-            <label className="errMsg">Missing position</label>
-          )}
-        </div>
-        <div>
-          <label htmlFor="gender">{'Gender'}</label>
-          <input
-            type="text"
+          <label htmlFor="gender">Gender</label>
+          <select
             name="gender"
             id="gender"
             onChange={handleChange}
-          />
+            defaultValue={''}>
+            <option value="" hidden>
+              Select gender
+            </option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
           {missingFields.gender && (
             <label className="errMsg">Missing gender</label>
           )}
         </div>
-        <div>
-          <label htmlFor="age">{'Age'}</label>
-          <input
-            type="number"
-            min={0}
-            max={200}
-            name="age"
-            id="age"
-            onChange={handleChange}
-          />
-          {missingFields.age && (
-            <label className="errMsg">Missing or wrong age</label>
-          )}
-        </div>
+        <Input
+          type={'number'}
+          name="age"
+          min={1}
+          max={200}
+          labelValue={'Age'}
+          onChange={handleChange}
+          errMsg={missingFields.age ? 'Missing or wrong age' : ''}
+        />
         <div className="btnContainer">
           <button onClick={handleSubmit}>Add User</button>
           <button className={'redBtn'} onClick={handleCancel}>
