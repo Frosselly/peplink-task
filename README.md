@@ -16,12 +16,15 @@
 - [x] Update data on load and every 15s
 - [x] Display last updated
 
-## Fix list
+## Extra
 
-- [x] colspan
-- [x] fix age
-- [x] gender selection
-- [x] fix delete problems
-- [x] fix Chuck on offline problems
-- [x] type missingFieldsType to MissingFieldTypes
-- [x] make input a component
+- [x] Font size
+- [ ] Change form display
+- [ ] Change table design
+  - [ ] Re-align tHead
+  - [ ] Change tHead color
+  - [ ] Set constant width
+  - [ ] Add checkmark option
+  - [ ] Change row movement logic
+  - [ ] Restyle the delete button
+- [ ] Search input

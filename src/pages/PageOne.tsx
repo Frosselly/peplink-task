@@ -4,7 +4,7 @@ import UserForm from '../components/UserForm'
 
 const usersExample: User[] = [
   {
-    name: 'Ahon Joberson Peter',
+    name: 'Ahon Joberson PeterAhon Joberson PeterAhon Joberson Peter',
     position: 'Janitor',
     gender: 'male',
     age: 23
@@ -109,6 +109,7 @@ function PageOne() {
       )}
       <div>
         <h1>Users</h1>
+        <input type="text" placeholder="Search" />
         <table>
           <thead>
             <tr>
