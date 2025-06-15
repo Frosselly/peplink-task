@@ -114,17 +114,28 @@ function PageOne() {
           <thead>
             <tr>
               <th></th>
-              <th role="button" onClick={() => handleChangeSort('name')}>
-                Name {renderSortDirection('name')}
+              <th
+                className="name"
+                role="button"
+                onClick={() => handleChangeSort('name')}>
+                <span>
+                  Name <div>{renderSortDirection('name')}</div>
+                </span>
               </th>
               <th role="button" onClick={() => handleChangeSort('position')}>
-                Position {renderSortDirection('position')}
+                <span>
+                  Position <div>{renderSortDirection('position')}</div>
+                </span>
               </th>
               <th role="button" onClick={() => handleChangeSort('gender')}>
-                Gender {renderSortDirection('gender')}
+                <span>
+                  Gender <div>{renderSortDirection('gender')}</div>
+                </span>
               </th>
               <th role="button" onClick={() => handleChangeSort('age')}>
-                Age {renderSortDirection('age')}
+                <span>
+                  Age <div>{renderSortDirection('age')}</div>
+                </span>
               </th>
               <th>Actions</th>
             </tr>

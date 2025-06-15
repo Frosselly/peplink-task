@@ -1,7 +1,7 @@
 main {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
   display: flex;
   place-items: center;
@@ -13,32 +13,42 @@ main {
 table {
   border-collapse: collapse;
   font-size: var(--text);
-  width: 800px;
+  /* width: 800px; */
 }
 
 thead {
   /* background-color: #757575; */
-  color: #757575;
+  color: var(--secondary-color);
   text-align: left;
-  border-bottom: 1px solid rgb(156, 156, 156);
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 th,
 td {
-  padding: 0.7rem 1rem;
+  padding: 1rem 1rem;
+  /* width: 15%; */
 }
 
 th {
   user-select: none;
+  width: min-content;
+}
+th span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1ch;
+}
+th div {
+  width: 2ch;
 }
 
 th[role='button']:hover {
-  color: hsl(0, 0%, 90%);
+  background-color: #262626;
 }
 
 td {
   text-align: left;
-  border-bottom: 1px solid rgb(56, 56, 56);
+  border-bottom: 1px solid #2f2f2f;
 }
 
 tr:last-child td {
@@ -56,6 +66,10 @@ td:nth-last-of-type(2) {
 td:first-child > div {
   display: flex;
   gap: 0.4rem;
+}
+
+.name {
+  /* width: 40%; */
 }
 
 /* Form */
