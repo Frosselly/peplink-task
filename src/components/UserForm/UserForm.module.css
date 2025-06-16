@@ -1,0 +1,64 @@
+/* Form */
+
+.formContainer {
+  position: absolute;
+  background-color: white;
+  padding: 2rem;
+  color: black;
+  border-radius: 4px;
+  margin-top: 50vh;
+}
+
+.formContainer h3 {
+  margin-bottom: 0.6rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form > div {
+  width: 100%;
+}
+
+.form label {
+  display: block;
+  text-align: start;
+  width: 100%;
+  font-size: var(--text-small);
+  padding-bottom: 0.1rem;
+  padding-left: 0.1rem;
+}
+
+.form select,
+option {
+  padding: 0.4rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid hsl(0, 0%, 50%);
+  border-radius: 4px;
+  color: black;
+  font-size: var(--text-large);
+}
+
+.form input:focus {
+  outline: none;
+  border: 2px solid rgb(38, 38, 38);
+}
+
+.form .errMsg {
+  color: red;
+  font-size: var(--text-very-small);
+}
+
+.form .btnContainer {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}

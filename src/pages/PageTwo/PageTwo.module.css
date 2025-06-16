@@ -1,0 +1,61 @@
+/* Page Two */
+
+.infoPage {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 800px;
+}
+
+.img {
+  width: fit-content;
+}
+
+.categories {
+  margin-top: 4px;
+}
+
+.category {
+  padding: 4px 6px;
+  background-color: rgb(134, 227, 227);
+  width: fit-content;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+}
+
+.quote {
+  background-color: hsl(0, 0%, 10%);
+  padding: 20px 20px 20px 40px;
+  font-size: 1.2rem;
+}
+
+.extraData {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: hsl(0, 0%, 12%);
+  padding: 20px 18px;
+  border-radius: 4px;
+}
+
+.extraData div {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.extraData .label {
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: hsl(0, 0%, 61%);
+}
+
+.updateData > div {
+  display: flex;
+  gap: 1ch;
+}
+
+.updateData > div > div:first-child {
+  color: hsl(0, 0%, 61%);
+}

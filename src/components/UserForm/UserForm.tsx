@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import type { User } from '../types'
-import Input from './Input'
+import type { User } from '../../types'
+import Input from '../Input/Input'
+
+import styles from './UserForm.module.css'
 
 type UserFormProps = {
   onSubmit: (formData: User) => void
@@ -75,9 +77,9 @@ const UserForm: React.FC<UserFormProps> = ({
   }
 
   return (
-    <div className="formContainer">
+    <div className={styles.formContainer}>
       <h3>Add a new User</h3>
-      <form action="">
+      <form className={styles.form} action="">
         <Input
           type={'text'}
           name="name"
@@ -107,7 +109,7 @@ const UserForm: React.FC<UserFormProps> = ({
             <option value="other">Other</option>
           </select>
           {missingFields.gender && (
-            <label className="errMsg">Missing gender</label>
+            <label className={styles.errMsg}>Missing gender</label>
           )}
         </div>
         <Input
@@ -119,7 +121,7 @@ const UserForm: React.FC<UserFormProps> = ({
           onChange={handleChange}
           errMsg={missingFields.age ? 'Missing or wrong age' : ''}
         />
-        <div className="btnContainer">
+        <div className={styles.btnContainer}>
           <button onClick={handleSubmit}>Add User</button>
           <button className={'redBtn'} onClick={handleCancel}>
             Cancel

@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react'
-import type { SortDirection, User, UserSortFields, UserSorting } from '../types'
-import UserForm from '../components/UserForm'
+import type {
+  SortDirection,
+  User,
+  UserSortFields,
+  UserSorting
+} from '../../types'
+import UserForm from '../../components/UserForm/UserForm'
+
+import styles from './PageOne.module.css'
 
 const usersExample: User[] = [
   {
@@ -110,7 +117,7 @@ function PageOne() {
       <div>
         <h1>Users</h1>
         <input type="text" placeholder="Search" />
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th></th>
@@ -149,7 +156,7 @@ function PageOne() {
               sortedUsers.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>
+                    <td className={styles.movement}>
                       <div>
                         <button onClick={() => moveRow(index, 'up')}>↑</button>
                         <button onClick={() => moveRow(index, 'down')}>
@@ -160,7 +167,7 @@ function PageOne() {
                     <td>{user.name}</td>
                     <td>{user.position}</td>
                     <td>{user.gender}</td>
-                    <td>{user.age}</td>
+                    <td className={styles.number}>{user.age}</td>
                     <td>
                       <button
                         className={'redBtn'}

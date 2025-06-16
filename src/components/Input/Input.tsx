@@ -1,3 +1,5 @@
+import styles from './Input.module.css'
+
 type InputPropsType = {
   type: React.HTMLInputTypeAttribute
   name: string
@@ -16,8 +18,11 @@ function Input({
 }: InputPropsType) {
   return (
     <div>
-      <label htmlFor={name}>{labelValue}</label>
+      <label className={styles.label} htmlFor={name}>
+        {labelValue}
+      </label>
       <input
+        className={styles.input}
         type={type}
         name={name}
         id={name}

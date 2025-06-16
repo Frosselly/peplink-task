@@ -1,10 +1,10 @@
 import { Link, Outlet } from 'react-router'
-import '../App.css'
+import styles from './NavigationBar.module.css'
 
 function NavigationBar() {
   return (
     <>
-      <nav>
+      <nav className={styles.nav}>
         <Link to={'/'}>Page One</Link>
         <Link to={'/two'}>Page Two</Link>
       </nav>

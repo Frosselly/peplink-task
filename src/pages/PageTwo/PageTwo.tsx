@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import styles from './PageTwo.module.css'
 
 type ApiType = {
   id: number
@@ -61,18 +62,22 @@ function PageTwo() {
   return (
     <>
       <h1>Chuck page</h1>
-      <div className="infoPage">
+      <div className={styles.infoPage}>
         {data && (
           <>
-            <img src={data.icon_url} alt="chuck norris icon" />
-            <div className="quote">&quot;{data.value}&quot;</div>
-            <div className="categoryContainer">
+            <img
+              className={styles.img}
+              src={data.icon_url}
+              alt="chuck norris icon"
+            />
+            <div className={styles.quote}>&quot;{data.value}&quot;</div>
+            <div className={styles.categoryContainer}>
               <div>Categories</div>
-              <div className="categories">
+              <div className={styles.categories}>
                 {data.categories.length ? (
                   data.categories.map((val, index) => {
                     return (
-                      <div key={index} className="category">
+                      <div key={index} className={styles.category}>
                         {val}
                       </div>
                     )
@@ -83,26 +88,26 @@ function PageTwo() {
               </div>
             </div>
 
-            <div className="extraData">
+            <div className={styles.extraData}>
               <h3>Extra data</h3>
               <div>
-                <div className="label">id</div>
+                <div className={styles.label}>id</div>
                 <div>{data.id}</div>
               </div>
               <div>
-                <div className="label">Created at</div>
+                <div className={styles.label}>Created at</div>
                 <div>{formatDate(data.created_at)}</div>
               </div>
               <div>
-                <div className="label">Updated at</div>
+                <div className={styles.label}>Updated at</div>
                 <div>{formatDate(data.updated_at)}</div>
               </div>
               <div>
-                <div className="label">Url</div>
+                <div className={styles.label}>Url</div>
                 <a href={data.url}>{data.url}</a>
               </div>
             </div>
-            <div className="updateData">
+            <div className={styles.updateData}>
               <div>
                 <div>Next page update:</div>
                 <div>{time}s</div>

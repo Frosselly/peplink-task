@@ -1,0 +1,9 @@
+/* Nav */
+
+.nav {
+  background-color: rgb(49, 49, 49);
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px;
+}

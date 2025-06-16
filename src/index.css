@@ -23,6 +23,17 @@
   --secondary-color: rgba(255, 255, 255, 0.46);
 }
 
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 a {
   font-weight: 500;
   color: #aaaef6;
@@ -41,6 +52,11 @@ h1 {
   line-height: 1.1;
 }
 
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -53,12 +69,20 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.redBtn {
+  background-color: brown;
+  color: white;
+  font-weight: bold;
 }
 
 @media (prefers-color-scheme: light) {
@@ -74,5 +98,26 @@ button:focus-visible {
   }
   button:hover {
     border-color: #646cff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  * {
+    color: rgb(0, 0, 0);
+  }
+  thead {
+    background-color: #ffffff;
+  }
+  td {
+    text-align: left;
+    border-top: 1px solid rgb(0, 0, 0);
+  }
+  .extraData,
+  .quote {
+    background-color: hsl(0, 0%, 95%);
+  }
+
+  nav {
+    background-color: hsl(0, 0%, 95%);
   }
 }

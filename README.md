@@ -21,10 +21,11 @@
 - [x] Font size
 - [ ] Change form display
 - [ ] Change table design
-  - [ ] Re-align tHead
-  - [ ] Change tHead color
-  - [ ] Set constant width
+  - [x] Re-align tHead
+  - [x] Change tHead color
+  - [x] Set constant width
   - [ ] Add checkmark option
   - [ ] Change row movement logic
   - [ ] Restyle the delete button
 - [ ] Search input
+- [x] Modularize styling

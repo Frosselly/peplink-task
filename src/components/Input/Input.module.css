@@ -1,0 +1,29 @@
+.label {
+  display: block;
+  text-align: start;
+  width: 100%;
+  font-size: var(--text-small);
+  padding-bottom: 0.1rem;
+  padding-left: 0.1rem;
+}
+
+.input {
+  padding: 0.4rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid hsl(0, 0%, 50%);
+  border-radius: 4px;
+  color: black;
+  font-size: var(--text-large);
+}
+
+.input:focus {
+  outline: none;
+  border: 2px solid rgb(38, 38, 38);
+}
+
+.errMsg {
+  color: red;
+  font-size: var(--text-very-small);
+}

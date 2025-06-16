@@ -1,9 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import PageOne from './pages/PageOne.tsx'
-import PageTwo from './pages/PageTwo.tsx'
-import NavigationBar from './components/NavigationBar.tsx'
+import PageOne from './pages/PageOne/PageOne.tsx'
+import PageTwo from './pages/PageTwo/PageTwo.tsx'
+import NavigationBar from './components/NavBar/NavigationBar.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
