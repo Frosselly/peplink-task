@@ -56,3 +56,31 @@ td {
 .number {
   text-align: right;
 }
+
+/* Drag preview styles */
+.dragPreview {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  background-color: rgb(25, 25, 25);
+  border: 1px solid #2f2f2f;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.dragTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dragCell {
+  padding: 1rem 1rem;
+  text-align: left;
+}
+
+.dragCell:last-child {
+  border-right: none;
+}
+
+.dragging {
+  background-color: rgb(5, 5, 5);
+}
