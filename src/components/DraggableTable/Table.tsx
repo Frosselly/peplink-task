@@ -1,9 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { SortDirection, UserSortFields, UserSorting } from '../../types'
+import styles from './Table.module.css'
 
-import styles from '../PageOne/PageOne.module.css'
+const compareString = (s1: string, s2: string) => {
+  return s1.localeCompare(s2)
+}
 
-function DraggableTable({ data = [], columns = [] }) {
-  const [rows, setRows] = useState(data)
+function Table({ data = [], columns = [], setData }) {
   const [dragState, setDragState] = useState({
     isDragging: false,
     dragIndex: null,
@@ -15,65 +18,36 @@ function DraggableTable({ data = [], columns = [] }) {
   const tableRef = useRef(null)
   const dragRowRef = useRef(null)
 
-  const defaultColumns = [
-    { key: 'name', label: 'Name' },
-    { key: 'position', label: 'Position' },
-    { key: 'gender', label: 'Gender' },
-    { key: 'age', label: 'Age' }
-  ]
+  const tableColumns = columns
 
-  const defaultData = [
-    {
-      name: 'Ahon Joberson PeterAhon Joberson PeterAhon Joberson Peter',
-      position: 'Janitor',
-      gender: 'male',
-      age: 23
-    },
-    {
-      name: 'Lucy',
-      position: 'Director',
-      gender: 'female',
-      age: 42
-    },
-    {
-      name: 'Sam',
-      position: 'Developer',
-      gender: 'male',
-      age: 32
-    }
-  ]
+  const handleMouseDown = useCallback((e: React.MouseEvent, index: any) => {
+    if (e.button !== 0) return
+    e.preventDefault()
+    const trElement = e.currentTarget.closest('tr')
+    const row = trElement
+    const rowRect = row.getBoundingClientRect()
 
-  const tableColumns = columns.length > 0 ? columns : defaultColumns
-  const currentRows =
-    data.length > 0 ? data : rows.length > 0 ? rows : defaultData
+    setSortValue({
+      field: 'unsorted',
+      direction: 'asc'
+    })
 
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent<HTMLTableRowElement>, index: any) => {
-      if (e.button !== 0) return
-      e.preventDefault()
-
-      const row = e.currentTarget
-      const rowRect = row.getBoundingClientRect()
-
-      setDragState({
-        isDragging: true,
-        dragIndex: index,
-        dragOffset: { x: 0, y: 0 },
-        initialMousePos: { x: e.clientX, y: e.clientY },
-        initialRowPos: {
-          x: rowRect.left,
-          y: rowRect.top
-        }
-      })
-    },
-    []
-  )
+    setDragState({
+      isDragging: true,
+      dragIndex: index,
+      dragOffset: { x: 0, y: 0 },
+      initialMousePos: { x: e.clientX, y: e.clientY },
+      initialRowPos: {
+        x: rowRect.left,
+        y: rowRect.top
+      }
+    })
+  }, [])
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (!dragState.isDragging || dragState.dragIndex === null) return
 
-      //adjusting based on starting position
       const deltaX = e.clientX - dragState.initialMousePos.x
       const deltaY = e.clientY - dragState.initialMousePos.y
 
@@ -85,7 +59,6 @@ function DraggableTable({ data = [], columns = [] }) {
       if (dragRowRef.current && tableRef.current) {
         const dragRect = dragRowRef.current.getBoundingClientRect()
         const tableBody = tableRef.current.querySelector('tbody')
-        //get all the tr elements in the table
         const allRows = Array.from(tableBody.querySelectorAll('tr'))
 
         const dragCenterY = dragRect.top + dragRect.height / 2
@@ -102,16 +75,11 @@ function DraggableTable({ data = [], columns = [] }) {
                 ? dragCenterY > rowCenterY
                 : dragCenterY < rowCenterY
             if (shouldSwap) {
-              //make copy
-              const newRows = [...currentRows]
-              //get the removed 1 element and name it draggedRow
+              const newRows = [...data]
               const [draggedRow] = newRows.splice(dragState.dragIndex, 1)
-              //add the new element in position causing a swap
               newRows.splice(i, 0, draggedRow)
 
-              if (data.length === 0) {
-                setRows(newRows)
-              }
+              setData(newRows)
 
               setDragState((p: any) => ({
                 ...p,
@@ -124,7 +92,7 @@ function DraggableTable({ data = [], columns = [] }) {
         }
       }
     },
-    [dragState, currentRows, data.length]
+    [dragState, data, data.length]
   )
 
   const handleMouseUp = useCallback(() => {
@@ -149,17 +117,67 @@ function DraggableTable({ data = [], columns = [] }) {
     }
   }, [dragState.isDragging, handleMouseMove, handleMouseUp])
 
+  const [sortValue, setSortValue] = useState<UserSorting>({
+    field: 'unsorted',
+    direction: 'asc'
+  })
+
+  const sortedUsers = useMemo(() => {
+    if (sortValue.field === 'unsorted') return data
+    const sorted = data.slice().sort((a, b) => {
+      const column = columns.find((col) => col.key === sortValue.field)
+      if (!column) return 0
+
+      switch (column.type) {
+        case 'string':
+          return compareString(a[column.key], b[column.key])
+        case 'number':
+          return a[column.key] - b[column.key]
+        default:
+          return 0
+      }
+    })
+    if (sortValue.direction === 'desc') return sorted.reverse()
+    return sorted
+  }, [data, sortValue])
+
+  const handleDeleteUser = (deleteIndex: number) => {
+    const newUsers = sortedUsers.filter((_v, index) => index !== deleteIndex)
+    setData(newUsers)
+  }
+
+  const handleChangeSort = (sortField: UserSortFields) => {
+    const sortDirection: SortDirection =
+      sortValue.field === sortField
+        ? sortValue.direction === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'asc'
+    setSortValue({ field: sortField, direction: sortDirection })
+  }
+
+  const renderSortDirection = (fieldName: UserSortFields) => {
+    if (sortValue.field === 'unsorted' || sortValue.field !== fieldName)
+      return ''
+    return sortValue.direction === 'asc' ? '↑' : '↓'
+  }
+
   return (
     <div>
-      <h1>Users</h1>
-      <input type="text" placeholder="Search" />
       <table ref={tableRef} className={styles.table}>
         <thead>
           <tr>
             <th></th>
             {tableColumns.map((col) => (
-              <th key={col.key} className={col.key} role="button">
-                <span>{col.label}</span>
+              <th
+                key={col.key}
+                className={col.key}
+                role="button"
+                onClick={() => handleChangeSort(col.key as UserSortFields)}>
+                <span>
+                  {col.label}{' '}
+                  <div>{renderSortDirection(col.key as UserSortFields)}</div>
+                </span>
               </th>
             ))}
 
@@ -167,12 +185,12 @@ function DraggableTable({ data = [], columns = [] }) {
           </tr>
         </thead>
         <tbody>
-          {!currentRows.length ? (
+          {!sortedUsers.length ? (
             <tr>
               <td colSpan={6}>The user list is empty</td>
             </tr>
           ) : (
-            currentRows.map((user, index) => {
+            sortedUsers.map((user, index) => {
               return (
                 <tr
                   key={index}
@@ -181,17 +199,25 @@ function DraggableTable({ data = [], columns = [] }) {
                     dragState.isDragging && dragState.dragIndex === index
                       ? styles.dragging
                       : ''
-                  ].join(' ')}
-                  onMouseDown={(e) => handleMouseDown(e, index)}>
+                  ].join(' ')}>
                   <td className={styles.movement}>
-                    <div></div>
+                    <div>
+                      <button onMouseDown={(e) => handleMouseDown(e, index)}>
+                        ↑
+                      </button>
+                    </div>
                   </td>
-                  <td>{user.name}</td>
-                  <td>{user.position}</td>
-                  <td>{user.gender}</td>
-                  <td className={styles.number}>{user.age}</td>
+                  {tableColumns.map((col) => (
+                    <td
+                      key={col.key + 'table'}
+                      className={col.type === 'number' ? styles.number : ''}>
+                      {sortedUsers[index]?.[col.key]}
+                    </td>
+                  ))}
                   <td>
-                    <button className={'redBtn'} onClick={() => {}}>
+                    <button
+                      className={'redBtn'}
+                      onClick={() => handleDeleteUser(index)}>
                       Delete
                     </button>
                   </td>
@@ -214,17 +240,17 @@ function DraggableTable({ data = [], columns = [] }) {
             <tbody>
               <tr>
                 <td className={styles.movement}>
-                  <div></div>
+                  <div>
+                    <button>↑</button>
+                  </div>
                 </td>
                 {tableColumns.map((col) => (
                   <td key={col.key} className={styles.dragCell}>
-                    {currentRows[dragState.dragIndex]?.[col.key]}
+                    {data[dragState.dragIndex]?.[col.key]}
                   </td>
                 ))}
                 <td>
-                  <button className={'redBtn'} onClick={() => {}}>
-                    Delete
-                  </button>
+                  <button className={'redBtn'}>Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -235,4 +261,4 @@ function DraggableTable({ data = [], columns = [] }) {
   )
 }
 
-export default DraggableTable
+export default Table

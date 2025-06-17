@@ -5,7 +5,7 @@ function NavigationBar() {
   return (
     <>
       <nav className={styles.nav}>
-        <Link to={'/'}>Page One</Link>
+        <Link to={'/one'}>Page One</Link>
         <Link to={'/two'}>Page Two</Link>
       </nav>
       <main>
