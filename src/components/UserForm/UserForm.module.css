@@ -47,11 +47,6 @@ option {
   font-size: var(--text-large);
 }
 
-.form input:focus {
-  outline: none;
-  border: 2px solid rgb(38, 38, 38);
-}
-
 .form .errMsg {
   color: red;
   font-size: var(--text-very-small);

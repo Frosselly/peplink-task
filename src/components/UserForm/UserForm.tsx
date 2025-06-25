@@ -60,7 +60,7 @@ const UserForm: React.FC<UserFormProps> = ({
     const errFields: MissingFieldsType = { ...missingFields }
     let canSubmit = true
     for (const k in formData) {
-      const key = k as keyof User
+      const key = k as keyof MissingFieldsType
       const isValid =
         typeof formData[key] === 'string' ? checkIfValid(formData[key]) : false
 

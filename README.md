@@ -25,7 +25,7 @@
   - [x] Change tHead color
   - [x] Set constant width
   - [ ] Add checkmark option
-  - [ ] Change row movement logic
+  - [x] Change row movement logic
   - [ ] Restyle the delete button
 - [ ] Search input
 - [x] Modularize styling

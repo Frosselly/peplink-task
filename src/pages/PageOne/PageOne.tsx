@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import type { User } from '../../types'
+import { useEffect, useState } from 'react'
+import type { TableColumn, User } from '../../types'
 import UserForm from '../../components/UserForm/UserForm'
 
 import Table from '../../components/DraggableTable/Table'
+import Input from '../../components/Input/Input'
 
 const usersExample: User[] = [
   {
@@ -25,7 +26,7 @@ const usersExample: User[] = [
   }
 ]
 
-const defaultColumns = [
+const defaultColumns: TableColumn[] = [
   { key: 'name', label: 'Name', type: 'string' },
   { key: 'position', label: 'Position', type: 'string' },
   { key: 'gender', label: 'Gender', type: 'string' },
@@ -35,6 +36,25 @@ const defaultColumns = [
 function PageOne() {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [users, setUsers] = useState<User[]>(usersExample)
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
+
+  const [search, setSearch] = useState<string>('')
+
+  useEffect(() => {
+    if (search === '') {
+      setFilteredUsers([])
+      return
+    }
+    const searchFormatted = search.toLowerCase()
+    const filteredUsers = users.filter((user) => {
+      return Object.values(user).some((val) => {
+        const valFormatted = String(val).toLowerCase()
+        return valFormatted.includes(searchFormatted)
+      })
+    })
+
+    setFilteredUsers(filteredUsers)
+  }, [search])
 
   return (
     <>
@@ -49,8 +69,18 @@ function PageOne() {
       )}
       <div>
         <h1>Users</h1>
-        <input type="text" placeholder="Search" />
-        <Table data={users} columns={defaultColumns} setData={setUsers} />
+        <Input
+          type={'text'}
+          name="search"
+          labelValue={''}
+          onChange={(e) => setSearch(e.target.value)}
+          errMsg={''}
+        />
+        <Table
+          data={search !== '' ? filteredUsers : users}
+          columns={defaultColumns}
+          setData={setUsers}
+        />
 
         <button onClick={() => setShowForm((prev) => !prev)}>Add User</button>
       </div>

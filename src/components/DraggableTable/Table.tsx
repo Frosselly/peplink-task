@@ -1,29 +1,48 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { SortDirection, UserSortFields, UserSorting } from '../../types'
+import type {
+  DataItem,
+  SortDirection,
+  TableColumn,
+  UserSortFields,
+  UserSorting
+} from '../../types'
 import styles from './Table.module.css'
+// import ellipsisHorizontal from '/assets/ellipsis-solid.svg'
+import ellipsisVertical from '/ellipsis-vertical-solid.svg'
 
 const compareString = (s1: string, s2: string) => {
   return s1.localeCompare(s2)
 }
 
-function Table({ data = [], columns = [], setData }) {
+type TableProps<T extends DataItem> = {
+  data: T[]
+  columns: TableColumn[]
+  setData: React.Dispatch<React.SetStateAction<T[]>>
+}
+
+function Table<T extends DataItem>({
+  data = [],
+  columns = [],
+  setData
+}: TableProps<T>) {
   const [dragState, setDragState] = useState({
     isDragging: false,
-    dragIndex: null,
+    dragIndex: 0,
     dragOffset: { x: 0, y: 0 },
     initialMousePos: { x: 0, y: 0 },
     initialRowPos: { x: 0, y: 0 }
   })
 
-  const tableRef = useRef(null)
-  const dragRowRef = useRef(null)
+  const tableRef = useRef<HTMLTableElement>(null)
+  const dragRowRef = useRef<HTMLDivElement>(null)
 
   const tableColumns = columns
 
-  const handleMouseDown = useCallback((e: React.MouseEvent, index: any) => {
+  const handleMouseDown = useCallback((e: React.MouseEvent, index: number) => {
     if (e.button !== 0) return
     e.preventDefault()
     const trElement = e.currentTarget.closest('tr')
+    if (!trElement) return
     const row = trElement
     const rowRect = row.getBoundingClientRect()
 
@@ -59,6 +78,7 @@ function Table({ data = [], columns = [], setData }) {
       if (dragRowRef.current && tableRef.current) {
         const dragRect = dragRowRef.current.getBoundingClientRect()
         const tableBody = tableRef.current.querySelector('tbody')
+        if (!tableBody) return
         const allRows = Array.from(tableBody.querySelectorAll('tr'))
 
         const dragCenterY = dragRect.top + dragRect.height / 2
@@ -81,7 +101,7 @@ function Table({ data = [], columns = [], setData }) {
 
               setData(newRows)
 
-              setDragState((p: any) => ({
+              setDragState((p) => ({
                 ...p,
                 dragIndex: i
               }))
@@ -98,7 +118,7 @@ function Table({ data = [], columns = [], setData }) {
   const handleMouseUp = useCallback(() => {
     setDragState({
       isDragging: false,
-      dragIndex: null,
+      dragIndex: 0,
       dragOffset: { x: 0, y: 0 },
       initialMousePos: { x: 0, y: 0 },
       initialRowPos: { x: 0, y: 0 }
@@ -130,9 +150,9 @@ function Table({ data = [], columns = [], setData }) {
 
       switch (column.type) {
         case 'string':
-          return compareString(a[column.key], b[column.key])
+          return compareString(String(a[column.key]), String(b[column.key]))
         case 'number':
-          return a[column.key] - b[column.key]
+          return Number(a[column.key]) - Number(b[column.key])
         default:
           return 0
       }
@@ -171,7 +191,7 @@ function Table({ data = [], columns = [], setData }) {
             {tableColumns.map((col) => (
               <th
                 key={col.key}
-                className={col.key}
+                className={styles[col.key]}
                 role="button"
                 onClick={() => handleChangeSort(col.key as UserSortFields)}>
                 <span>
@@ -190,7 +210,7 @@ function Table({ data = [], columns = [], setData }) {
               <td colSpan={6}>The user list is empty</td>
             </tr>
           ) : (
-            sortedUsers.map((user, index) => {
+            sortedUsers.map((_user, index) => {
               return (
                 <tr
                   key={index}
@@ -202,8 +222,19 @@ function Table({ data = [], columns = [], setData }) {
                   ].join(' ')}>
                   <td className={styles.movement}>
                     <div>
-                      <button onMouseDown={(e) => handleMouseDown(e, index)}>
-                        ↑
+                      <button
+                        onMouseDown={(e) => handleMouseDown(e, index)}
+                        style={{
+                          backgroundColor: 'transparent'
+                        }}>
+                        <img
+                          src={ellipsisVertical}
+                          className={styles.ellipsis}
+                        />
+                        <img
+                          src={ellipsisVertical}
+                          className={styles.ellipsis}
+                        />
                       </button>
                     </div>
                   </td>
@@ -234,14 +265,20 @@ function Table({ data = [], columns = [], setData }) {
           style={{
             left: `${dragState.initialRowPos.x + dragState.dragOffset.x}px`,
             top: `${dragState.initialRowPos.y + dragState.dragOffset.y}px`,
-            width: tableRef.current.offsetWidth
+            width: tableRef.current?.offsetWidth ?? 0
           }}>
           <table className={styles.dragTable}>
             <tbody>
               <tr>
                 <td className={styles.movement}>
                   <div>
-                    <button>↑</button>
+                    <button
+                      style={{
+                        backgroundColor: 'transparent'
+                      }}>
+                      <img src={ellipsisVertical} className={styles.ellipsis} />
+                      <img src={ellipsisVertical} className={styles.ellipsis} />
+                    </button>
                   </div>
                 </td>
                 {tableColumns.map((col) => (

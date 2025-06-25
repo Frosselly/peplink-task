@@ -1,8 +1,18 @@
-export type User = {
+export type DataItem = {
+  [key: string]: string | number | boolean;
+}
+
+export type User = DataItem & {
   name: string
   position: string
   gender: GenderType
   age: number
+}
+
+export type TableColumn = {
+  key: string,
+  label: string,
+  type: string
 }
 
 type GenderType = 'male' | 'female' | 'other' | ''

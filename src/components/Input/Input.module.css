@@ -20,7 +20,8 @@
 
 .input:focus {
   outline: none;
-  border: 2px solid rgb(38, 38, 38);
+  border: 1px solid rgb(38, 38, 38);
+  box-shadow: 0 0 0 1px rgb(38, 38, 38);
 }
 
 .errMsg {
